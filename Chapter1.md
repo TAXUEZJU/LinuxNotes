@@ -13,7 +13,7 @@
 * `/etc/sysconfig/network-scripts/ifcfg-eth0`  
 为网卡配置文件,注意网卡一般为`eth0`，具体视情况而定
 * 文件内容主要修改__ONBOOT__为yes,为开机启动网卡；__BOOTPROTO__改为static，添加<u>ip地址，子网掩码，网关，DNS</u>,示例：
->DEVICE=eth0  
+> DEVICE=eth0  
 HWADDR=08:00:27:85:7D:20  
 TYPE=Ethernet  
 UUID=8ca1af85-0007-4fa7-be55-7705003621ad  
