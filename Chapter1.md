@@ -12,18 +12,18 @@
 指令查看ip路由表，这里主要用来查看_NETMASK_和_GATEWAY_
 * `/etc/sysconfig/network-scripts/ifcfg-eth0`  
 为网卡配置文件,注意网卡一般为`eth0`，具体视情况而定
-* 文件内容主要修改__ONBOOT__为yes,为开机启动网卡；__BOOTPROTO__改为static，添加<u>ip地址，子网掩码，网关，DNS</u>,示例：
-> DEVICE=eth0
-> HWADDR=08:00:27:85:7D:20
-> TYPE=Ethernet
-> UUID=8ca1af85-0007-4fa7-be55-7705003621ad
-> ONBOOT=yes
-> NM_CONTROLLED=yes
-> BOOTPROTO=static
-> IPADDR=10.0.2.15
-> NETMASK=255.255.255.0
-> GATEWAY=10.0.2.2
-> DNS1=10.0.2.2  
+* 文件内容主要修改__ONBOOT__为yes,为开机启动网卡；__BOOTPROTO__改为static，添加<u>ip地址，子网掩码，网关，DNS</u>,示例:  
+> DEVICE=eth0   
+> HWADDR=08:00:27:85:7D:20    
+> TYPE=Ethernet   
+> UUID=8ca1af85-0007-4fa7-be55-7705003621ad   
+> ONBOOT=yes    
+> NM_CONTROLLED=yes   
+> BOOTPROTO=static    
+> IPADDR=10.0.2.15    
+> NETMASK=255.255.255.0   
+> GATEWAY=10.0.2.2    
+> DNS1=10.0.2.2
 *	重启网络服务`service network restart`,能ping通外网说明设置成功了
 * `ifdown`与`ifup`可以关闭或和开启网卡
 
