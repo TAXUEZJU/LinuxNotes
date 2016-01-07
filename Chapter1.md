@@ -9,6 +9,7 @@
 * `ifconfig`查看网卡ip，其中`lo`是回环网卡，用于机器内部通信，可通过`ipconfig -a`查看所有网卡
 * 若网络环境中有dhcp服务器，可以执行`dhclient`自动获得ip
 * `route`  
+
 指令查看ip路由表，这里主要用来查看_NETMASK_和_GATEWAY_
 * `/etc/sysconfig/network-scripts/ifcfg-eth0`  
 为网卡配置文件，注意网卡一般为`eth0`，具体视情况而定
@@ -84,5 +85,20 @@ init 6  ==  reboot ==  shutdown -r now
 * `Ctrl+E`　快速把光标定位到行尾
 
 ### 环境变量
+* `which`用来查询命令的绝对路径，可以查看命令别名和位置
+* `alias`可查看所有别名
+* `alias`可为较长命令设置别名，但尽限当此登录，若想永久有效，需将设置写入`.bashrc`，当前用户配置文件为`~/.bashrc`  
+__alias__语法示例  
+`alias shadowsocks-hk='sudo sslocal -c /etc/shadowsocks/hk02.json -d start'`
+* `echo $PATH`可显示环境变量__PATH__的值，可用如下命令添加  
+`PATH=$PATH:/(目录)`
 
 ### 一些指令
+* `cd`切换目录，注意绝对路径和相对路径的使用  
+`./`表示当前目录，`../`表示当前目录的上一级目录
+* `pwd`显示当前目录
+* `ls`命令  
+`-l` 列出详细信息  
+`-a` 列出所有文件，包括隐藏文件  
+`-t` 按文件的最后更改时间排序  
+`-d` 只列出当前目录本身
