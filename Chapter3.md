@@ -83,7 +83,7 @@
 * `zip filename.zip filename`  
 用于压缩文件，先跟压缩后文件名，再跟要压缩的文件名或目录，压缩保留源文件
 * `zip -r`  
-用于级联压缩，zip默认不压缩二级目录下文件，压缩目录时需要加参数`r`
+用于级联压缩，_zip_默认不压缩二级目录下文件，压缩目录时需要加参数`r`
 * `unzip filename.zip`用于解压,参数`-d`可指定解压路径
 
 #### xz压缩和解压缩
@@ -98,10 +98,30 @@
 `-z`同时用_gzip_压缩  
 `-j`同时用_bzip2_压缩  
 `-x`解包或解压缩  
-`-t`查看tar包里的文件  
-`-c`建立一个tar包或者压缩包  
+`-t`查看_tar_包里的文件  
+`-c`建立一个_tar_包或者压缩包  
 `-v`可视化  
-`-f`后面跟文件名，压缩时`-f filename`意为压缩后的文件名为filename，解压时跟`-f filename`，意为解压filename。如果多参数组合，`-f`需写到最后  
+`-f`后面跟文件名，压缩时`-f filename`意为压缩后的文件名为_filename_，解压时跟`-f filename`，意为解压_filename_。如果多参数组合，`-f`需写到最后  
 `-p`使用原文件的属性（不常用）  
 `-P`可使用绝对路径（不常用）  
-`--exclude filename`打包或压缩时，不将filename包括在内（不常用）  
+`--exclude filename`打包或压缩时，不将_filename_包括在内（不常用）  
+
+#### tar打包和压缩并用
+* `tar -zcvf filename.tar.gz filename/directory`，打包并使用_gzip_压缩  
+`tar -zxvf filename.tar.gz`用于解压
+* `tar -jcvf filename.tar.bz2 filename/directory`，打包并使用_bzip2_压缩  
+`tar -jxvf filename.tar.bz2`用于解压
+* `tar -Jcvf filename.tar.xz filename/directory`，打包并使用_xz_压缩  
+`tar -Jxvf filename.tar.xz`用于解压
+* `tar -tf 包名`可查看压缩包文件目录，低版本tar在查看`tar.xz`时需要加上参数`J`
+
+#### rpm安装和卸载
+* `rpm -ivh filename.rpm`用于安装_rpm_包  
+`-i`安装  
+`-v`可视化  
+`-h`显示安装进度  
+常用附带参数：  
+`--force`强制安装，即使覆盖其他包或文件也要安装  
+`--nodeps`忽略依赖安装
+* `rpm -Uvh package`升级_rpm_包，`-U`用于升级
+* `rpm -e package`卸载_rpm_包，输入包名而不是完整文件名
