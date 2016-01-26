@@ -92,3 +92,16 @@
 `-z`压缩，可不加
 * xz不能压缩目录，压缩不保留源文件
 * `xzcat`查看`.xz`的文本文件内容
+
+#### tar打包工具详解
+* 语法`tar [-zjxcvfpP] filename`  
+`-z`同时用_gzip_压缩  
+`-j`同时用_bzip2_压缩  
+`-x`解包或解压缩  
+`-t`查看tar包里的文件  
+`-c`建立一个tar包或者压缩包  
+`-v`可视化  
+`-f`后面跟文件名，压缩时`-f filename`意为压缩后的文件名为filename，解压时跟`-f filename`，意为解压filename。如果多参数组合，`-f`需写到最后  
+`-p`使用原文件的属性（不常用）  
+`-P`可使用绝对路径（不常用）  
+`--exclude filename`打包或压缩时，不将filename包括在内（不常用）  
