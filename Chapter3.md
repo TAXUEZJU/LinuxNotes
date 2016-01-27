@@ -125,3 +125,17 @@
 `--nodeps`忽略依赖安装
 * `rpm -Uvh package`升级_rpm_包，`-U`用于升级
 * `rpm -e package`卸载_rpm_包，输入包名而不是完整文件名
+
+#### rpm查询
+* `rpm -q package`查询一个包是否安装
+* `rpm -qa`查询当前系统所有安装过的_rpm_包
+* `rpm -qi package`得到一个已安装过_rpm_包的相关信息
+* `rpm -ql package`列出一个_rpm_包安装的文件
+* `rpm -qf 文件绝对路径`列出某个文件属于哪个_rpm_包
+
+#### yum工具详解
+* `yum list`列出所有可用的_rpm_包，`yum list |grep package`可用来过滤列出内容，起到搜索的效果，结果中有`@`的为已安装的包
+* `yum search [关键词]`搜索_rpm_包
+* `yum install [-y] [package]`安装_rpm_包，加`-y`可跳过询问用户是否安装
+* `yum remove [-y] [package]`卸载_rpm_包，不建议加`-y`，可能会因为破坏依赖关系影响别的组件正常工作
+* `yum update [-y] [package]`升级_rpm_包
