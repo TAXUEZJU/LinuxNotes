@@ -139,3 +139,25 @@
 * `yum install [-y] [package]`安装_rpm_包，加`-y`可跳过询问用户是否安装
 * `yum remove [-y] [package]`卸载_rpm_包，不建议加`-y`，可能会因为破坏依赖关系影响别的组件正常工作
 * `yum update [-y] [package]`升级_rpm_包
+* `yum grouplist`列出软件包组  
+`yum groupinstall "套件名"`安装套件（软件包组）  
+`yum groupremove`卸载套件
+
+#### 搭建本地yum仓库
+1. `mount /dev/cdrom /mnt`挂载_cd_
+2. `cp -r /etc/yum.repos.d /etc/yum.repos.d.bak`备份_repo_  
+`rm -rf /etc/yum.repos.d/`删除旧的源信息  
+或者只删除`/etc/yum.repos.d/CentOS-Base.repo`
+3. 创建新repo文件或者修改`CentOS-Media.repo`，内容如下所示  
+```
+[dvd]
+name=install dvd
+baseurl=file:///mnt
+enabled=1
+gpgcheck=0
+```
+第一行`[dvd]`为本地软件源的名字，会显示在`yum list`列表右侧  
+第二行是该源的名字标识，可不加  
+第三行路径，第四行启用，第五行关闭_gpg_验证
+
+#### yum下载rpm包到本地
