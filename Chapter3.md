@@ -163,3 +163,10 @@ gpgcheck=0
 #### yum下载rpm包到本地
 * 需要安装`yum-plugin-downloadonly`，6.7版本中已经不需要额外安装
 * `yum install package -y --downloadonly --downloaddir=/tmp`可以将_rpm_下载到指定目录
+
+#### 源码编译安装
+1. `./configure`可加上相应选项定制功能，会检测编译所需的库是否完整，检测通过会生成__Makefile__文件
+2. `make`会根据__Makefile__中预设参数进行编译
+3. `make install`进行安装
+4. 注意的是，并非所有软件都是上述步骤，需先阅读源码包中_install_或者_readme_之类说明文件
+5. 查看某一步骤是否成功，可用`echo $？`，返回值若为0则成功
