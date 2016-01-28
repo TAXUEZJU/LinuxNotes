@@ -161,3 +161,5 @@ gpgcheck=0
 第三行路径，第四行启用，第五行关闭_gpg_验证
 
 #### yum下载rpm包到本地
+* 需要安装`yum-plugin-downloadonly`，6.7版本中已经不需要额外安装
+* `yum install package -y --downloadonly --downloaddir=/tmp`可以将_rpm_下载到指定目录
