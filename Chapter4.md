@@ -96,3 +96,21 @@ root         7  0.1  0.0      0     0 ?        S    4月05   5:06 [rcu_preempt]
 * 可以用`ps aux | grep -c keyword`查看相关进程
 
 #### netstat查看端口
+* `netstat -lnp`打印当前系统启动哪些端口
+* `netstat -an`打印网络连接状况
+
+#### 抓包工具tcpdump和tshark
+* `tcpdump -n -i eth0`该命令可以查看指定网卡（eth0）的数据流向，`-i`是指定设备，`-n`可以避免将ip和端口号转换为主机名和服务名
+* `tcpdump -nn -i eth1 host 192.168.1.100 and port 80 -c 100 -w 1.cap`  
+该命令的一种用法，可以用`host`指定ip，`port`指定端口，`-c`指定包数量，`-w`写入指定文件。此时`1.cap`文件里是包的内容，不加`-w`则直接显示的是数据流向，包的内容无法用`cat`查看，可以用`tcpdump -r file`或者`wireshark`查看，要抓取完整的包需要参数`-s0`
+* `tshark`也可用于抓包，需要先安装`wireshark`
+* `tshark -n -t a -R http.request -T fields -e "frame.time" -e "ip.sec" -e "http.host" -e "http.request.method" -e "http.request.uri"`  
+__该用法可以显示访问http请求的域名以及uri__
+* `tshark -n -i eth1 -R 'mysql.query' -T fields -e "ip.src" -e "mysql.query"`  
+__该指令可以抓取eth1上对mysql的查询__
+* `tshark -n -i eth1 -R 'mysql matches "SELECT|INSERT|DELETE|UPDATE"' -T fields -e "ip.src" -e "mysql.query"`  
+__抓取指定类型的mysql查询__
+* `tshark -n -q -z http,stat， -z http，tree`  
+__统计http的状态__
+
+#### selinux介绍
