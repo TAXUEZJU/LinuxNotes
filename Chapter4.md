@@ -110,7 +110,30 @@ __该用法可以显示访问http请求的域名以及uri__
 __该指令可以抓取eth1上对mysql的查询__
 * `tshark -n -i eth1 -R 'mysql matches "SELECT|INSERT|DELETE|UPDATE"' -T fields -e "ip.src" -e "mysql.query"`  
 __抓取指定类型的mysql查询__
-* `tshark -n -q -z http,stat， -z http，tree`  
+* `tshark -n -q -z http,stat, -z http，tree`  
 __统计http的状态__
 
 #### selinux介绍
+`Selinux`是一种安全机制，实际使用中因为配置繁琐可能导致一些问题而通常情况下将其关闭。  
+* 编辑`/etc/selinux/config`，将`SELINUX=enforcing`改为`SELINUX=disabled`，保存更改，重启即可生效
+* `setenforce 0`可临时关闭`selinux`
+* `getenforce`可获得当前`selinux`的状态
+
+#### iptables详解
+`netfilter`是linux的一种防火墙，实现工具是`iptables`，`iptables`有三个表，默认是`filter`，`nat`，`mangle`，当未指定操作对象时，默认是对`filter`表进行操作
+* `filter`表用于过滤包，是系统预设的表，内建三个链，`INPUT`，`OUTPUT`，`FORWARD`，依次作用于进入本机的包，本机送出的包，跟本机无关的包；  
+`nat`用于网络地址转换，三个链`PREROUTING`，`OUTPUT`，`POSTROUTING`，作用依次为在包刚到达防火墙时改变它的目的地址，改变本地产生包的目的地址，及在包就要离开防火墙之前改变其源地址。  
+`mangle`用于给数据包标记，然后根据标记操作包，基本用不到。  
+
+__iptables语法__
+* `iptables -t filter -nvL`该指令指定查看`filter`的详细规则，`-t`指定查看对象，`-nvL`查看规则，`-Z`把包以及流量计数器置零。`-F`临时清除当前规则，但重启后会重新加载
+* `iptables -A INPUT -s 10.71.11.12 -p tcp --sport 1234 -d 10.72.137.159 --dport 80 -j DROP`  
+该指令增加了一条规则，`-A`表示增加规则，`-I`表示插入规则，两者的区别在于前者新增规则出现在规则表的最下面，后者出现在最上面，而且后者插入的规则优先生效。`-D`删除一条规则  
+`INPUT`为链名称，还可以是`OUTPUT`或者`FORWARD`。`-s`后跟源地址，`-p`协议(tcp,udp,icmp)，`--sport/--dport`后跟源端口／目标端口，`-d`后跟目的IP，`-j`后跟动作(DROP丢掉,REJECT拒绝,ACCEPT允许)，`-i`指定网卡，不常用。  
+* `iptables -nvL --line-numbers`，此时显示的规则有数字标记，删除时只要执行`iptables -D 链 number`即可便捷删除某条规则  
+
+__保存及备份iptables规则__
+* `service iptables save`保存规则，通常情况下规则保存在`/etc/sysconfig/iptables`
+* `iptables-save > backup.rule`可将规则备份到文件`backup.rule`
+* `iptables-restore < backup.rule`从备份文件恢复规则
+* 注意默认情况下操作的对象是`filter`表
