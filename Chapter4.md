@@ -129,7 +129,7 @@ __iptables语法__
 * `iptables -t filter -nvL`该指令指定查看`filter`的详细规则，`-t`指定查看对象，`-nvL`查看规则，`-Z`把包以及流量计数器置零。`-F`临时清除当前规则，但重启后会重新加载
 * `iptables -A INPUT -s 10.71.11.12 -p tcp --sport 1234 -d 10.72.137.159 --dport 80 -j DROP`  
 该指令增加了一条规则，`-A`表示增加规则，`-I`表示插入规则，两者的区别在于前者新增规则出现在规则表的最下面，后者出现在最上面，而且后者插入的规则优先生效。`-D`删除一条规则  
-`INPUT`为链名称，还可以是`OUTPUT`或者`FORWARD`。`-s`后跟源地址，`-p`协议(tcp,udp,icmp)，`--sport/--dport`后跟源端口／目标端口，`-d`后跟目的IP，`-j`后跟动作(DROP丢掉,REJECT拒绝,ACCEPT允许)，`-i`指定网卡，不常用。  
+`INPUT`为链名称，还可以是`OUTPUT`或者`FORWARD`。`-s`后跟源地址ip，`-p`协议(tcp,udp,icmp)，`--sport/--dport`后跟源端口／目标端口，`-d`后跟目的IP，`-j`后跟动作(DROP丢掉,REJECT拒绝,ACCEPT允许)，`-i`指定网卡，不常用。  
 * `iptables -nvL --line-numbers`，此时显示的规则有数字标记，删除时只要执行`iptables -D 链 number`即可便捷删除某条规则  
 
 __保存及备份iptables规则__
@@ -137,3 +137,14 @@ __保存及备份iptables规则__
 * `iptables-save > backup.rule`可将规则备份到文件`backup.rule`
 * `iptables-restore < backup.rule`从备份文件恢复规则
 * 注意默认情况下操作的对象是`filter`表
+
+#### cron计划任务
+Linux任务计划功能的操作都是通过`crontab`完成的，常用的选项有：  
+* `-u`，指定某用户，不加即为当前用户
+* `-e`，制定计划任务，该选项会使用_vim_打开_crontab_配置文件
+* `-l`，列出计划任务
+* `-r`，删除计划任务
+* `01 10 05 06 3 echo "ok" >/root/cron.log`  
+这是一条计划任务，从左到右依次为：分，时，日，月，周，命令，上例含义是6月5日（必须是星期3）的10点01分执行命令`echo "ok" >/root/cron.log`
+* 每隔八小时，在小时位上可以写成`*/8`，当遇到多个数，需要用逗号隔开，比如`1，12，18`，时间段可以用`n-m`的方式表示
+* 查看服务是否启动，CentOS上是`service crond status`,一些系统比如Ubuntu，openSUSE上是`service cron status`
