@@ -87,3 +87,36 @@ aaaaaa
 ```
 
 ### tr和split命令
+* `tr`用于替换字符，常用选项有：  
+`-d`删除某个字符，后面跟要删除的字符  
+`-s`把重复的字符去掉  
+```
+taxue@Leap:~> ls 1.txt | tr 'a-z' 'A-Z'
+1.TXT
+```
+* `split`用于切割文档，常用选项：  
+`-b`按字节大小切割，单位`byte`  
+`-l`按行数分割文档  
+如果`split`不指定目标文件名，将会按照`xaa` `xab`这样的文件名依次存取切割后文件，也可以指定目标文件名
+```
+taxue@Leap:~> split -l 10 passwd.txt new_
+taxue@Leap:~> ls
+1.txt   bin            Desktop    Downloads      IdeaProjects  new_aa  new_ac  passwd.txt  Public       Softwares       Templates  VirtualBox VMs
+backup  ClionProjects  Documents  FoxitSoftware  Music         new_ab  new_ad  Pictures    public_html  StudioProjects  Videos
+```
+
+### Shell中连接符
+* `command1 ; command2`，不管`command1`是否执行成功都会执行`command2`
+* `command1 && command2`，只有`command1`执行成功`command2`才会执行
+* `command1 || command2`，`command1`执行成功后`command2`不执行，否则执行`command2`，两条命令只有一条会执行
+
+### grep过滤
+* 语法选项  
+`-c`打印符合要求的行数（有几行）  
+`-n`在输出符合要求的行同时输出行号  
+`-v`打印不符合要求的行  
+`-A`后面跟一个数字，表示打印符合要求的行以及下面几行  
+`-B`与上类似，表示打印符合要求的行及上面几行  
+`-C`与上类似，表示打印符合要求的行以及上下各几行  
+`-r`遍历目录下的全部文件，若加上`-h`可以隐藏显示结果前面的文件名  
+`--color`标识匹配到的关键词
