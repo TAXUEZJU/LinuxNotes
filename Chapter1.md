@@ -14,18 +14,30 @@
 指令查看ip路由表，这里主要用来查看 *NETMASK* 和 *GATEWAY*
 * `/etc/sysconfig/network-scripts/ifcfg-eth0`  
 为网卡配置文件，注意网卡一般为`eth0`，具体视情况而定
-* 文件内容主要修改 **ONBOOT** 为 *yes*，为开机启动网卡； **BOOTPROTO** 改为 *static*，添加<u>ip地址，子网掩码，网关，DNS</u>，示例:  
-  > DEVICE=eth0  
-  > HWADDR=08:00:27:85:7D:20  
-  > TYPE=Ethernet  
-  > UUID=8ca1af85-0007-4fa7-be55-7705003621ad  
-  > ONBOOT=yes  
-  > NM_CONTROLLED=yes  
-  > BOOTPROTO=static  
-  > IPADDR=10.0.2.15  
-  > NETMASK=255.255.255.0  
-  > GATEWAY=10.0.2.2  
-  > DNS1=119.29.29.29
+* 文件内容主要修改 **ONBOOT** 为 *yes*，为开机启动网卡； **BOOTPROTO** 改为 *static*，添加<u>ip地址，子网掩码，网关，DNS</u>，示例:
+
+>TYPE=Ethernet
+BOOTPROTO=static
+DEFROUTE=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=ens33
+UUID=8c942f27-ec92-43c6-89c7-136692acb217
+DEVICE=ens33
+ONBOOT=yes
+IPADDR=192.168.126.129
+NETMASK=255.255.255.0
+GATEWAY=192.168.126.2
+DNS1=119.29.29.29
+
 *	重启网络服务`systemctl restart netwrok.service`，能ping通外网说明设置成功了
 * `ifdown`与`ifup`可以关闭或和开启网卡
 
