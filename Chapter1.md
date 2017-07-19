@@ -1,7 +1,8 @@
 ##  Linux初讲
 
 ### 虚拟机设置及安装
-*	_boot_分区200M基本足够，不选择加密否则无法正常启动；_swap_分区大小一般为内存的两倍，但不多于8G
+* 一般分 */boot*，*/swap*， */* 即可
+*	*boot*分区200M基本足够，不选择加密否则无法正常启动；*swap*分区大小一般为内存的两倍，但不多于8G
 * 网络环境中有路由器，可以自动获取ip时虚拟机网络模式可以设为“桥接”，否则设为NAT
 * 设置grub密码可防止别人进入单用户模式修改root密码
 
@@ -10,10 +11,10 @@
 * 若网络环境中有dhcp服务器，可以执行`dhclient`自动获得ip
 * `route`  
 
-指令查看ip路由表，这里主要用来查看_NETMASK_和_GATEWAY_
+指令查看ip路由表，这里主要用来查看 *NETMASK* 和 *GATEWAY*
 * `/etc/sysconfig/network-scripts/ifcfg-eth0`  
 为网卡配置文件，注意网卡一般为`eth0`，具体视情况而定
-* 文件内容主要修改__ONBOOT__为yes，为开机启动网卡；__BOOTPROTO__改为static，添加<u>ip地址，子网掩码，网关，DNS</u>，示例:  
+* 文件内容主要修改 **ONBOOT** 为 *yes*，为开机启动网卡； **BOOTPROTO** 改为 *static*，添加<u>ip地址，子网掩码，网关，DNS</u>，示例:  
   > DEVICE=eth0  
   > HWADDR=08:00:27:85:7D:20  
   > TYPE=Ethernet  
@@ -24,8 +25,8 @@
   > IPADDR=10.0.2.15  
   > NETMASK=255.255.255.0  
   > GATEWAY=10.0.2.2  
-  > DNS1=10.0.2.2
-*	重启网络服务`service network restart`，能ping通外网说明设置成功了
+  > DNS1=119.29.29.29
+*	重启网络服务`systemctl restart netwrok.service`，能ping通外网说明设置成功了
 * `ifdown`与`ifup`可以关闭或和开启网卡
 
 ### 系统启动流程
@@ -35,6 +36,7 @@
 <u>
 SSH支持密钥认证，其中公钥用于加密，私钥用于解密，可以用puttygen生成密钥对
 </u>
+
 *	公钥内容复制到`/root/.ssh/authorized_keys`中
 * 更改目录文件权限，  
 `chmod 700 /root/.ssh`  
@@ -50,25 +52,25 @@ SSH支持密钥认证，其中公钥用于加密，私钥用于解密，可以�
 将规则保存到配置文件中，配置文件为`/etc/sysconfig/iptables`
 
 ### 运行级别
-* __init 0__　halt，关机
-* __init 1__　单用户模式
-* __init 2__　多用户模式，无NFS服务
-* __init 3__　完整多用户模式
-* 　__4__　　为预留模式
-* __init 5__　X11，图形界面模式
-* __init 6__　重启  
+* **init 0**　halt，关机
+* **init 1**　单用户模式
+* **init 2**　多用户模式，无NFS服务
+* **init 3**　完整多用户模式
+* 　**4**　　为预留模式
+* **init 5**　X11，图形界面模式
+* **init 6**　重启  
 init 6  ==  reboot ==  shutdown -r now
 
 ### 单用户模式
 <u>
 开机时按回车进入grub选项，选中发行版，按`e`进入编辑模式，在内核启动项后加`single`或者`s`或者`1`，回车后按`b`即启动进入单用户模式
 </u>
-*
-单用户模式下可用`passwd`指令修改root密码
+
+* 单用户模式下可用`passwd`指令修改root密码
 
 ### 救援模式
 当grub损坏或者因为配置文件修改出错导致系统无法进入，需要使用救援模式
-* 在bios中调整光盘启动优先，光盘启动后选择__Rescue installed system__
+* 在bios中调整光盘启动优先，光盘启动后选择**Rescue installed system**
 * Rescue环境会找到已安装的linux系统，并挂载到`/mnt/sysimage`
 * 如果需要root环境，执行  
 `chroot /mnt/sysimage`
@@ -88,9 +90,9 @@ init 6  ==  reboot ==  shutdown -r now
 * `which`用来查询命令的绝对路径，可以查看命令别名和位置
 * `alias`可查看所有别名
 * `alias`可为较长命令设置别名，但尽限当此登录，若想永久有效，需将设置写入`.bashrc`，当前用户配置文件为`~/.bashrc`  
-__alias__语法示例  
+**alias**语法示例  
 `alias shadowsocks-hk='sudo sslocal -c /etc/shadowsocks/hk02.json -d start'`
-* `echo $PATH`可显示环境变量__PATH__的值，可用如下命令添加  
+* `echo $PATH`可显示环境变量**PATH**的值，可用如下命令添加  
 `PATH=$PATH:/(目录)`
 
 ### 一些指令
