@@ -1,67 +1,54 @@
 ##  Linux初讲
 
 ### 虚拟机设置及安装
-* 一般分 */boot*，*/swap*， */* 即可
-*	*boot*分区200M基本足够，不选择加密否则无法正常启动；*swap*分区大小一般为内存的两倍，但不多于8G
-* 网络环境中有路由器，可以自动获取ip时虚拟机网络模式可以设为“桥接”，否则设为NAT
-* 设置grub密码可防止别人进入单用户模式修改root密码
+- 一般分 */boot*，*/swap*， */* 即可
+- *boot* 分区200M基本足够，不选择加密否则无法正常启动；*swap* 分区大小一般为内存的两倍，但不多于8G
+- 网络环境中有路由器，可以自动获取ip时虚拟机网络模式可以设为“桥接”，否则设为NAT
+- 设置grub密码可防止别人进入单用户模式修改root密码
 
 ### IP设置
-* `ifconfig`查看网卡ip，其中`lo`是回环网卡，用于机器内部通信，可通过`ipconfig -a`查看所有网卡
-* 若网络环境中有dhcp服务器，可以执行`dhclient`自动获得ip
-* `route`  
-
-指令查看ip路由表，这里主要用来查看 *NETMASK* 和 *GATEWAY*
-* `/etc/sysconfig/network-scripts/ifcfg-eth0`  
-为网卡配置文件，注意网卡一般为`eth0`，具体视情况而定
-* 文件内容主要修改 **ONBOOT** 为 *yes*，为开机启动网卡； **BOOTPROTO** 改为 *static*，添加<u>ip地址，子网掩码，网关，DNS</u>，示例:
-
->TYPE=Ethernet
-BOOTPROTO=static
-DEFROUTE=yes
-PEERDNS=yes
-PEERROUTES=yes
-IPV4_FAILURE_FATAL=no
-IPV6INIT=yes
-IPV6_AUTOCONF=yes
-IPV6_DEFROUTE=yes
-IPV6_PEERDNS=yes
-IPV6_PEERROUTES=yes
-IPV6_FAILURE_FATAL=no
-IPV6_ADDR_GEN_MODE=stable-privacy
-NAME=ens33
-UUID=8c942f27-ec92-43c6-89c7-136692acb217
-DEVICE=ens33
-ONBOOT=yes
-IPADDR=192.168.126.129
-NETMASK=255.255.255.0
-GATEWAY=192.168.126.2
-DNS1=119.29.29.29
-
-*	重启网络服务`systemctl restart netwrok.service`，能ping通外网说明设置成功了
-* `ifdown`与`ifup`可以关闭或和开启网卡
-
-### 系统启动流程
-*	详见教材P21~24，了解即可，多用于排障
+- 为了便于远程登录，一般设置静态ip便于访问
+- `ip addr`查看网卡ip，其中`lo`是回环网卡，用于机器内部通信，`ip`是很强大的网络管理工具，更多用法可以查阅相关文档
+- 若网络环境中有dhcp服务器，可以执行`dhclient`自动获得ip
+- `route -n`可以查看网关
+- `/etc/sysconfig/network-scripts/`  
+为网卡配置文件目录，如果网卡为`ens33`，则对应配置文件为`ifcfg-ens33`，可以使用`vim`编辑该文件
+- 文件内容主要修改 **ONBOOT** 为 *yes*，为开机启动网卡； **BOOTPROTO** 改为 *static*，表示ip为静态，添加<u>ip地址，子网掩码，网关，DNS</u>，具体见示例最后四行:
+    ```
+    TYPE=Ethernet
+    PROXY_METHOD=none
+    BROWSER_ONLY=no
+    BOOTPROTO=static
+    DEFROUTE=yes
+    IPV4_FAILURE_FATAL=no
+    IPV6INIT=yes
+    IPV6_AUTOCONF=yes
+    IPV6_DEFROUTE=yes
+    IPV6_FAILURE_FATAL=no
+    IPV6_ADDR_GEN_MODE=stable-privacy
+    NAME=ens33
+    UUID=9edfe1f6-80cd-41b3-b8a0-477609ab963b
+    DEVICE=ens33
+    ONBOOT=yes
+    IPADDR=192.168.126.130
+    NETMASK=255.255.255.0
+    GATEWAY=192.168.126.2
+    DNS1=119.29.29.29
+    ```
+- 重启网络服务`systemctl restart netwrok.service`，能ping通外网说明设置成功了
+- `ifdown`与`ifup`可以关闭或和开启网卡
 
 ### 远程连接工具使用
-<u>
-SSH支持密钥认证，其中公钥用于加密，私钥用于解密，可以用puttygen生成密钥对
-</u>
-
-*	公钥内容复制到`/root/.ssh/authorized_keys`中
-* 更改目录文件权限，  
+<u>SSH支持密钥认证，其中公钥用于加密，私钥用于解密，可以用puttygen生成密钥对（XShell自带此功能）</u>
+- 公钥内容复制到`/root/.ssh/authorized_keys`中
+- 更改目录文件权限，  
 `chmod 700 /root/.ssh`  
 `chmod 600 /root/.ssh/authorized_keys`
-* 关闭防火墙，iptables和SELinux，  
+- 关闭防火墙，iptables和SELinux，  
 `setenforce 0`  
 该指令暂时关闭SELinux，永久关闭SELinux需要修改配置文件  
-`vi /etc/selinux/config`  
+`/etc/selinux/config`  
 将`SELINUX=enforcing`修改为`disabled`，然后重启系统
-* `iptables -F`  
-临时清除规则  
-`service iptables save`  
-将规则保存到配置文件中，配置文件为`/etc/sysconfig/iptables`
 
 ### 运行级别
 * **init 0**　halt，关机
@@ -73,12 +60,15 @@ SSH支持密钥认证，其中公钥用于加密，私钥用于解密，可以�
 * **init 6**　重启  
 init 6  ==  reboot ==  shutdown -r now
 
-### 单用户模式
-<u>
-开机时按回车进入grub选项，选中发行版，按`e`进入编辑模式，在内核启动项后加`single`或者`s`或者`1`，回车后按`b`即启动进入单用户模式
-</u>
-
-* 单用户模式下可用`passwd`指令修改root密码
+### emergency模式
+启动界面中按下方向键，选中预启动的版本，按`e`进入编辑模式，在之后的grub界面中，找到`linux16`这一行，
+1. 将`ro`(read only)改为`rw`(read and write)
+2. 在随后空格，添加`init=/sysroot/bin/sh`
+3. 按下`Ctrl+X`
+4. 在之后出现的命令行界面中，执行`chroot /sysroot/`切换到原本系统环境的目录
+5. `passwd [username]`修改密码即可
+- 如果界面执行过程中出现乱码是因为命令终端不支持中文，执行`LANG=en`即可
+6. 执行`touch /.autorelabel`，与SELinux有关，执行后才能重启正常登录系统
 
 ### 救援模式
 当grub损坏或者因为配置文件修改出错导致系统无法进入，需要使用救援模式
