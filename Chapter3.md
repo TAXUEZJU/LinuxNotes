@@ -1,9 +1,9 @@
 ## Linux提高
 
 #### vim介绍
-* _vim_是类_vi_的文本编辑器，可看成是_vi_的加强升级版，最明显的区别就是代码高亮
-* CentOS安装_vim_指令为`yum install -y vim-enhanced`
-* `vim +n filename`，n是一个数字，会在打开文件的时候将光标定位到第n行，在_vim_中使用`:set nu`可显示行号
+* *vim*是类*vi*的文本编辑器，可看成是*vi*的加强升级版，最明显的区别就是代码高亮
+* CentOS安装*vim*指令为`yum install -y vim-enhanced`
+* `vim +n filename`，n是一个数字，会在打开文件的时候将光标定位到第n行，在*vim*中使用`:set nu`可显示行号
 
 #### vim一般模式下光标移动
 | 按键 | 作用 |
@@ -67,7 +67,7 @@
 | :set nonu | 不显示行号 |
 
 #### gzip讲解
-* `gzip [-#] filename`用于压缩文件，不保留源文件，__#__是压缩等级，1最差，9最好，默认6，不支持压缩目录，生成压缩文件后缀名`.gz`
+* `gzip [-#] filename`用于压缩文件，不保留源文件，**#**是压缩等级，1最差，9最好，默认6，不支持压缩目录，生成压缩文件后缀名`.gz`
 * `gzip -d`可以解压压缩文件
 * `gunzip`也可以解压，不加参数
 * `zcat`可查看`.gz`的文本文件内容
@@ -76,14 +76,14 @@
 * `bzip2 [-dz] filename`  
 `-d`解压缩  
 `-z`压缩，可不加  
-* __bzip2__不能压缩目录，压缩不保留源文件  
+* **bzip2**不能压缩目录，压缩不保留源文件  
 * `bzcat`可查看`.bz2`的文本文件内容
 
 #### zip和unzip
 * `zip filename.zip filename`  
 用于压缩文件，先跟压缩后文件名，再跟要压缩的文件名或目录，压缩保留源文件
 * `zip -r`  
-用于级联压缩，_zip_默认不压缩二级目录下文件，压缩目录时需要加参数`r`
+用于级联压缩，*zip*默认不压缩二级目录下文件，压缩目录时需要加参数`r`
 * `unzip filename.zip`用于解压,参数`-d`可指定解压路径
 
 #### xz压缩和解压缩
@@ -95,28 +95,28 @@
 
 #### tar打包工具详解
 * 语法`tar [-zjxcvfpP] filename`  
-`-z`同时用_gzip_压缩  
-`-j`同时用_bzip2_压缩  
+`-z`同时用*gzip*压缩  
+`-j`同时用*bzip2*压缩  
 `-x`解包或解压缩  
-`-t`查看_tar_包里的文件  
-`-c`建立一个_tar_包或者压缩包  
+`-t`查看*tar*包里的文件  
+`-c`建立一个*tar*包或者压缩包  
 `-v`可视化  
-`-f`后面跟文件名，压缩时`-f filename`意为压缩后的文件名为_filename_，解压时跟`-f filename`，意为解压_filename_。如果多参数组合，`-f`需写到最后  
+`-f`后面跟文件名，压缩时`-f filename`意为压缩后的文件名为*filename*，解压时跟`-f filename`，意为解压*filename*。如果多参数组合，`-f`需写到最后  
 `-p`使用原文件的属性（不常用）  
 `-P`可使用绝对路径（不常用）  
-`--exclude filename`打包或压缩时，不将_filename_包括在内（不常用）  
+`--exclude filename`打包或压缩时，不将*filename*包括在内（不常用）  
 
 #### tar打包和压缩并用
-* `tar -zcvf filename.tar.gz filename/directory`，打包并使用_gzip_压缩  
+* `tar -zcvf filename.tar.gz filename/directory`，打包并使用*gzip*压缩  
 `tar -zxvf filename.tar.gz`用于解压
-* `tar -jcvf filename.tar.bz2 filename/directory`，打包并使用_bzip2_压缩  
+* `tar -jcvf filename.tar.bz2 filename/directory`，打包并使用*bzip2*压缩  
 `tar -jxvf filename.tar.bz2`用于解压
-* `tar -Jcvf filename.tar.xz filename/directory`，打包并使用_xz_压缩  
+* `tar -Jcvf filename.tar.xz filename/directory`，打包并使用*xz*压缩  
 `tar -Jxvf filename.tar.xz`用于解压
 * `tar -tf 包名`可查看压缩包文件目录，低版本tar在查看`tar.xz`时需要加上参数`J`
 
 #### rpm安装和卸载
-* `rpm -ivh filename.rpm`用于安装_rpm_包  
+* `rpm -ivh filename.rpm`用于安装*rpm*包  
 `-i`安装  
 `-v`可视化  
 `-h`显示安装进度  
@@ -128,24 +128,24 @@
 
 #### rpm查询
 * `rpm -q package`查询一个包是否安装
-* `rpm -qa`查询当前系统所有安装过的_rpm_包
-* `rpm -qi package`得到一个已安装过_rpm_包的相关信息
-* `rpm -ql package`列出一个_rpm_包安装的文件
-* `rpm -qf 文件绝对路径`列出某个文件属于哪个_rpm_包
+* `rpm -qa`查询当前系统所有安装过的*rpm*包
+* `rpm -qi package`得到一个已安装过*rpm*包的相关信息
+* `rpm -ql package`列出一个*rpm*包安装的文件
+* `rpm -qf 文件绝对路径`列出某个文件属于哪个*rpm*包
 
 #### yum工具详解
-* `yum list`列出所有可用的_rpm_包，`yum list |grep package`可用来过滤列出内容，起到搜索的效果，结果中有`@`的为已安装的包
-* `yum search [关键词]`搜索_rpm_包
-* `yum install [-y] [package]`安装_rpm_包，加`-y`可跳过询问用户是否安装
-* `yum remove [-y] [package]`卸载_rpm_包，不建议加`-y`，可能会因为破坏依赖关系影响别的组件正常工作
-* `yum update [-y] [package]`升级_rpm_包
+* `yum list`列出所有可用的*rpm*包，`yum list |grep package`可用来过滤列出内容，起到搜索的效果，结果中有`@`的为已安装的包
+* `yum search [关键词]`搜索*rpm*包
+* `yum install [-y] [package]`安装*rpm*包，加`-y`可跳过询问用户是否安装
+* `yum remove [-y] [package]`卸载*rpm*包，不建议加`-y`，可能会因为破坏依赖关系影响别的组件正常工作
+* `yum update [-y] [package]`升级*rpm*包
 * `yum grouplist`列出软件包组  
 `yum groupinstall "套件名"`安装套件（软件包组）  
 `yum groupremove`卸载套件
 
 #### 搭建本地yum仓库
-1. `mount /dev/cdrom /mnt`挂载_cd_
-2. `cp -r /etc/yum.repos.d /etc/yum.repos.d.bak`备份_repo_  
+1. `mount /dev/cdrom /mnt`挂载*cd*
+2. `cp -r /etc/yum.repos.d /etc/yum.repos.d.bak`备份*repo*  
 `rm -rf /etc/yum.repos.d/`删除旧的源信息  
 或者只删除`/etc/yum.repos.d/CentOS-Base.repo`
 3. 创建新repo文件或者修改`CentOS-Media.repo`，内容如下所示  
@@ -162,11 +162,11 @@ gpgcheck=0
 
 #### yum下载rpm包到本地
 * 需要安装`yum-plugin-downloadonly`，6.7版本中已经不需要额外安装
-* `yum install package -y --downloadonly --downloaddir=/tmp`可以将_rpm_下载到指定目录
+* `yum install package -y --downloadonly --downloaddir=/tmp`可以将*rpm*下载到指定目录
 
 #### 源码编译安装
-1. `./configure`可加上相应选项定制功能，会检测编译所需的库是否完整，检测通过会生成__Makefile__文件
-2. `make`会根据__Makefile__中预设参数进行编译
+1. `./configure`可加上相应选项定制功能，会检测编译所需的库是否完整，检测通过会生成**Makefile**文件
+2. `make`会根据**Makefile**中预设参数进行编译
 3. `make install`进行安装
-4. 注意的是，并非所有软件都是上述步骤，需先阅读源码包中_install_或者_readme_之类说明文件
+4. 注意的是，并非所有软件都是上述步骤，需先阅读源码包中*install*或者*readme*之类说明文件
 5. 查看某一步骤是否成功，可用`echo $？`，返回值若为0则成功
